@@ -19,8 +19,14 @@ import json
 
 import sys
 
+def get_base_path():
+    if getattr(sys, "frozen", False):
+        return Path(sys.executable).resolve().parent
+    else:
+        return Path(__file__).resolve().parent
+
 def load_config():
-    base_path = Path(sys.executable).resolve().parent
+    base_path = get_base_path()
 
     config_path = base_path / "config.json"
 
@@ -299,7 +305,7 @@ def process_actions():
         root.after(100, process_actions)
 
 def resource_path(filename):
-    base_path = Path(sys.executable).resolve().parent
+    base_path = get_base_path()
 
     return base_path / filename
 
