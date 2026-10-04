@@ -42,7 +42,7 @@ folder = load_config()
 
 file_categories = {
     "Images": [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp", ".tif", ".tiff", ".svg", ".heic", ".avif"],
-    "Documents": [".pdf", ".doc", ".docx", ".txt", ".rtf", ".odt", ".md", ".tex", ".epub"],
+    "Documents": [".pdf", ".doc", ".docx", ".txt", ".rtf", ".odt", ".md", ".tex", ".epub", ".pptx", ".ppt"],
     "Videos": [".mp4", ".mov", ".avi", ".mkv", ".wmv", ".webm", ".flv"],
     "Archives": [".zip", ".rar", ".7z", ".tar", ".gz", ".bz2", ".xz"],
     "Programs": [".exe", ".msi", ".apk", ".dmg", ".app", ".bat", ".sh", ".jar"],
@@ -50,7 +50,7 @@ file_categories = {
     "Code": [".py", ".js", ".ts", ".html", ".css", ".php", ".c", ".cpp", ".java", ".json", ".xml", ".yaml", ".yml"]
 }
 
-dry_run = True
+dry_run = False
 
 class MyHandler(FileSystemEventHandler):
     def __init__(self):
@@ -62,8 +62,10 @@ class MyHandler(FileSystemEventHandler):
 
     def on_created(self, event):
         if not event.is_directory:
-            self.processed_count += 1
             path = Path(event.src_path)
+
+            if path.suffix.lower() in (".crdownload", ".part", ".download"):
+                return
 
             if is_file_ready(path):
                 status, file_name, destination = organize_file(path, dry_run)
@@ -72,6 +74,25 @@ class MyHandler(FileSystemEventHandler):
                 else:
                     self.errors.append(f"{file_name}: {destination}")
 
+                self.processed_count += 1
+                self.moved_count, self.failed_count = handle_result(status, self.moved_count, self.failed_count)
+
+
+    def on_moved(self, event):
+        if not event.is_directory:
+            path = Path(event.dest_path)
+
+            if path.parent != folder:
+                return
+
+            if is_file_ready(path):
+                status, file_name, destination = organize_file(path, dry_run)
+                if status in ("success", "dryrun"):
+                    self.successes.append({"original": file_name, "destination": destination})
+                else:
+                    self.errors.append(f"{file_name}: {destination}")
+
+                self.processed_count += 1
                 self.moved_count, self.failed_count = handle_result(status, self.moved_count, self.failed_count)
 
 def classify_file(item):
@@ -307,7 +328,7 @@ def process_actions():
 def resource_path(filename):
     base_path = get_base_path()
 
-    return base_path / filename
+    return base_path / "_internal" / filename
 
 def start_tray():
     # put your png here👇
