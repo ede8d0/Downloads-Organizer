@@ -41,13 +41,13 @@ def load_config():
 folder = load_config()
 
 file_categories = {
-    "Images": [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp", ".tif", ".tiff", ".svg", ".heic", ".avif"],
-    "Documents": [".pdf", ".doc", ".docx", ".txt", ".rtf", ".odt", ".md", ".tex", ".epub", ".pptx", ".ppt"],
-    "Videos": [".mp4", ".mov", ".avi", ".mkv", ".wmv", ".webm", ".flv"],
-    "Archives": [".zip", ".rar", ".7z", ".tar", ".gz", ".bz2", ".xz"],
-    "Programs": [".exe", ".msi", ".apk", ".dmg", ".app", ".bat", ".sh", ".jar"],
-    "Audio": [".mp3", ".wav", ".aac", ".flac", ".ogg", ".m4a", ".wma"],
-    "Code": [".py", ".js", ".ts", ".html", ".css", ".php", ".c", ".cpp", ".java", ".json", ".xml", ".yaml", ".yml"]
+    "Images": [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp", ".tif", ".tiff", ".svg", ".heic", ".heif", ".avif", ".ico", ".raw", ".cr2", ".nef", ".arw"],
+    "Documents": [".pdf", ".doc", ".docx", ".txt", ".rtf", ".odt", ".md", ".tex", ".epub", ".pptx", ".ppt", ".xlsx", ".xls", ".csv", ".ods", ".odp"],
+    "Videos": [".mp4", ".mov", ".avi", ".mkv", ".wmv", ".webm", ".flv", ".m4v", ".mpeg", ".mpg", ".3gp", ".ogv"],
+    "Archives": [".zip", ".rar", ".7z", ".tar", ".gz", ".bz2", ".xz", ".iso", ".cab"],
+    "Programs": [".exe", ".msi", ".apk", ".dmg", ".app", ".bat", ".sh", ".jar", ".cmd", ".com", ".scr", ".deb"],
+    "Audio": [".mp3", ".wav", ".aac", ".flac", ".ogg", ".m4a", ".wma", ".alac", ".opus", ".aiff", ".mid", ".midi"],
+    "Code": [".py", ".js", ".ts", ".html", ".htm", ".css", ".php", ".c", ".cpp", ".java", ".json", ".xml", ".yaml", ".yml", ".h", ".cs", ".rb", ".go", ".rs", ".swift", ".kt", ".sql", ".sh"]
 }
 
 dry_run = False
